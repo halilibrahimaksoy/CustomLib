@@ -1,0 +1,160 @@
+buildscript {
+    repositories {
+        jcenter()
+
+    }
+    dependencies {
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
+    }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+//apply plugin: "com.mobbeel.plugin"
+apply plugin: 'me.lucas.fat-aar'
+
+ext {
+    bintrayRepo = 'ExampleLib'
+    bintrayName = 'com.haksoy.examplelib'
+
+    publishedGroupId = 'com.haksoy.examplelib'
+    libraryName = 'ExampleLib'
+    artifact = 'examplelib'
+
+    libraryDescription = 'This view is a container that supports diagonal scroll and fling gesture. It is based on AOSP HorizontalScrollView.'
+
+    siteUrl = 'https://github.com/halilibrahimaksoy/examplelibrary'
+    gitUrl = 'https://github.com/halilibrahimaksoy/ExampleLibrary.git'
+
+    libraryVersion = '1.0.1'
+
+    developerId = 'halilibrahimaksoy'
+    developerName = 'Halil Aksoy'
+    developerEmail = 'halilibrahimaksoy@yandex.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+android {
+    compileSdkVersion 28
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+dependencies {
+    implementation fileTree(dir: 'libs')
+    testImplementation 'junit:junit:4.12'
+    embed project(path: ':Core:core1', configuration: 'default')
+    embed project(path: ':Core:core2', configuration: 'default')
+    embed project(path: ':Services:services1', configuration: 'default')
+    embed project(path: ':Services:services2', configuration: 'default')
+
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+//    api project(path: ':Core:core1')
+//    api project(path: ':Core:core2')
+//    api project(path: ':Services:services1')
+//    api project(path: ':Services:services2')
+}
+fatLibraryExt {
+    enable true
+}
+//aarPlugin {
+//    includeAllInnerDependencies true
+//}
+group = publishedGroupId
+version = libraryVersion
+
+install {
+    repositories.mavenInstaller {
+        pom.project {
+            packaging 'aar'
+            groupId publishedGroupId
+            artifactId artifact
+
+            name libraryName
+            description libraryDescription
+            url siteUrl
+
+            licenses {
+                license {
+                    name licenseName
+                    url licenseUrl
+                }
+            }
+            developers {
+                developer {
+                    id developerId
+                    name developerName
+                    email developerEmail
+                }
+            }
+            scm {
+                connection gitUrl
+                developerConnection gitUrl
+                url siteUrl
+            }
+        }
+    }
+}
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+
+    configurations = ['archives']
+    pkg {
+        repo = bintrayRepo
+        name = bintrayName
+        desc = libraryDescription
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = allLicenses
+        dryRun = false
+        publish = true
+        override = false
+        publicDownloadNumbers = true
+        version {
+            desc = libraryDescription
+        }
+    }
+}
