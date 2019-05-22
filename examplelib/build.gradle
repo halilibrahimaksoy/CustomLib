@@ -25,10 +25,10 @@ ext {
 
     libraryDescription = 'This view is a container that supports diagonal scroll and fling gesture. It is based on AOSP HorizontalScrollView.'
 
-    siteUrl = 'https://github.com/halilibrahimaksoy/examplelibrary'
-    gitUrl = 'https://github.com/halilibrahimaksoy/ExampleLibrary.git'
+    siteUrl = 'https://github.com/halilibrahimaksoy/CustomLib'
+    gitUrl = 'https://github.com/halilibrahimaksoy/CustomLib.git'
 
-    libraryVersion = '1.0.1'
+    libraryVersion = '1.0.2'
 
     developerId = 'halilibrahimaksoy'
     developerName = 'Halil Aksoy'
@@ -66,8 +66,6 @@ dependencies {
     embed project(path: ':Core:core2', configuration: 'default')
     embed project(path: ':Services:services1', configuration: 'default')
     embed project(path: ':Services:services2', configuration: 'default')
-
-    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
 //    api project(path: ':Core:core1')
 //    api project(path: ':Core:core2')
 //    api project(path: ':Services:services1')
@@ -114,25 +112,25 @@ install {
         }
     }
 }
-task sourcesJar(type: Jar) {
-    classifier = 'sources'
-    from android.sourceSets.main.java.srcDirs
-}
-
-task javadoc(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
-artifacts {
-    archives javadocJar
-    archives sourcesJar
-}
+//task sourcesJar(type: Jar) {
+//    classifier = 'sources'
+//    from android.sourceSets.main.java.srcDirs
+//}
+//
+//task javadoc(type: Javadoc) {
+//    source = android.sourceSets.main.java.srcDirs
+//    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+//}
+//
+//task javadocJar(type: Jar, dependsOn: javadoc) {
+//    classifier = 'javadoc'
+//    from javadoc.destinationDir
+//}
+//
+//artifacts {
+//    archives javadocJar
+//    archives sourcesJar
+//}
 
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
