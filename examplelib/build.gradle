@@ -1,20 +1,8 @@
-buildscript {
-    repositories {
-        jcenter()
-
-    }
-    dependencies {
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
-    }
-}
-
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
-//apply plugin: "com.mobbeel.plugin"
 apply plugin: 'me.lucas.fat-aar'
-
+//apply plugin: "com.mobbeel.plugin"
 ext {
     bintrayRepo = 'ExampleLib'
     bintrayName = 'com.haksoy.examplelib'
@@ -23,7 +11,7 @@ ext {
     libraryName = 'ExampleLib'
     artifact = 'examplelib'
 
-    libraryDescription = 'This view is a container that supports diagonal scroll and fling gesture. It is based on AOSP HorizontalScrollView.'
+    libraryDescription = 'This library created for an example publish to jcenter.'
 
     siteUrl = 'https://github.com/halilibrahimaksoy/CustomLib'
     gitUrl = 'https://github.com/halilibrahimaksoy/CustomLib.git'
@@ -66,93 +54,18 @@ dependencies {
     embed project(path: ':Core:core2', configuration: 'default')
     embed project(path: ':Services:services1', configuration: 'default')
     embed project(path: ':Services:services2', configuration: 'default')
-//    api project(path: ':Core:core1')
-//    api project(path: ':Core:core2')
-//    api project(path: ':Services:services1')
-//    api project(path: ':Services:services2')
+//    api project(':Core:core1')
+//    api project(':Core:core2')
+//    api project(':Services:services1')
+//    api project(':Services:services2')
 }
 fatLibraryExt {
     enable true
 }
 //aarPlugin {
-//    includeAllInnerDependencies true
-//}
-group = publishedGroupId
-version = libraryVersion
-
-install {
-    repositories.mavenInstaller {
-        pom.project {
-            packaging 'aar'
-            groupId publishedGroupId
-            artifactId artifact
-
-            name libraryName
-            description libraryDescription
-            url siteUrl
-
-            licenses {
-                license {
-                    name licenseName
-                    url licenseUrl
-                }
-            }
-            developers {
-                developer {
-                    id developerId
-                    name developerName
-                    email developerEmail
-                }
-            }
-            scm {
-                connection gitUrl
-                developerConnection gitUrl
-                url siteUrl
-            }
-        }
-    }
-}
-//task sourcesJar(type: Jar) {
-//    classifier = 'sources'
-//    from android.sourceSets.main.java.srcDirs
-//}
-//
-//task javadoc(type: Javadoc) {
-//    source = android.sourceSets.main.java.srcDirs
-//    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-//}
-//
-//task javadocJar(type: Jar, dependsOn: javadoc) {
-//    classifier = 'javadoc'
-//    from javadoc.destinationDir
-//}
-//
-//artifacts {
-//    archives javadocJar
-//    archives sourcesJar
+//    includeAllInnerDependencies true  // It's false for default
 //}
 
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-
-bintray {
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
-
-    configurations = ['archives']
-    pkg {
-        repo = bintrayRepo
-        name = bintrayName
-        desc = libraryDescription
-        websiteUrl = siteUrl
-        vcsUrl = gitUrl
-        licenses = allLicenses
-        dryRun = false
-        publish = true
-        override = false
-        publicDownloadNumbers = true
-        version {
-            desc = libraryDescription
-        }
-    }
-}
+apply from: "/bintary-upload.gradle"
+//apply from: "/android-release-aar.gradle"
+//apply from: 'https://raw.githubusercontent.com/blundell/release-android-library/master/android-release-aar.gradle'

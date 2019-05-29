@@ -12,6 +12,8 @@ buildscript {
         classpath 'com.novoda:bintray-release:0.9.1'
 //        classpath "com.mobbeel.plugin:fat-aar:2.0.1"
         classpath "gradle.plugin.me.lucas:fat-aar-plugin:1.0.9"
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
     }
 }
 
