@@ -1,0 +1,59 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+ext {
+    bintrayRepo = 'DeletingExampleRepo'
+    bintrayName = 'com.haksoy.deletingexample'
+
+    publishedGroupId = 'com.haksoy.deletingexample'
+    libraryName = 'DeletingExample'
+    artifact = 'deletingexample'
+
+    libraryDescription = 'This library created for an example publish to jcenter.'
+
+    siteUrl = 'https://github.com/halilibrahimaksoy/CustomLib'
+    gitUrl = 'https://github.com/halilibrahimaksoy/CustomLib.git'
+
+    libraryVersion = '1.0.2'
+
+    developerId = 'halilibrahimaksoy'
+    developerName = 'Halil Aksoy'
+    developerEmail = 'halilibrahimaksoy@yandex.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+android {
+    compileSdkVersion 28
+
+
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}
+apply from: "../examplelib/bintary-upload.gradle"

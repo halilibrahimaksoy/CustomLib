@@ -1,1 +1,1 @@
-include ':Apps:myapplication', ':examplelib','Core:core1','Core:core2','Services:services1','Services:services2' ,':examplelib'
+include ':Apps:myapplication', ':examplelib', ':deletingexample','Core:core1','Core:core2','Services:services1','Services:services2' ,':examplelib'
